@@ -1,5 +1,8 @@
 package net.javaguides.springboot.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import net.javaguides.springboot.dto.UserDto;
@@ -15,6 +18,8 @@ import org.springframework.web.context.request.WebRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Tag(name="CRUD REST APIs for user Resource",
+description = "CRUD REST APIs - Create, Read, Update, delete users.")
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/users")
@@ -23,6 +28,14 @@ public class UserController {
     private final UserService userService;
 
     // build create User REST API
+    @Operation(
+            summary = "Create user REST APi",
+            description = "Create user REST API. Saves user to database"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "HTTP status 201 created"
+    )
     @PostMapping
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto user){
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
